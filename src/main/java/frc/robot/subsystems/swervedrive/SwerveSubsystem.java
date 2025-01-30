@@ -55,10 +55,17 @@ import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+import java.io.File;
+import edu.wpi.first.wpilibj.Filesystem;
+import swervelib.parser.SwerveParser;
+import swervelib.SwerveDrive;
+import edu.wpi.first.math.util.Units;
 
 public class SwerveSubsystem extends SubsystemBase
 {
-
+  double maximumSpeed = Units.feetToMeters(4.5);
+  File directory = new File(Filesystem.getDeployDirectory(),"swerve");
+  
   /**
    * Swerve drive object.
    */
@@ -81,8 +88,8 @@ public class SwerveSubsystem extends SubsystemBase
    *
    * @param directory Directory of swerve drive config files.
    */
-  public SwerveSubsystem(File directory)
-  {
+  public SwerveSubsystem(File directory)  {
+    
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     try
@@ -102,8 +109,8 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.setAngularVelocityCompensation(true,
                                                true,
                                                0.1); //Correct for skew that gets worse as angular velocity increases. Start with a coefficient of 0.1.
-    swerveDrive.setModuleEncoderAutoSynchronize(false,
-                                                1); // Enable if you want to resynchronize your absolute encoders and motor encoders periodically when they are not moving.
+    swerveDrive.setModuleEncoderAutoSynchronize(true,
+                                                5); // Enable if you want to resynchronize your absolute encoders and motor encoders periodically when they are not moving.
 //    swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
     if (visionDriveTest)
     {
@@ -139,7 +146,9 @@ public class SwerveSubsystem extends SubsystemBase
 
   @Override
   public void periodic()
+  
   {
+    
     // When vision is enabled we must manually update odometry in SwerveDrive
     if (visionDriveTest)
     {
