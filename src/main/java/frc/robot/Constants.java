@@ -22,7 +22,7 @@ public final class Constants
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
   public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
-  public static final double MAX_SPEED  = Units.feetToMeters(100);
+  public static final double MAX_SPEED  = Units.feetToMeters(14.5);
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
 //  public static final class AutonConstants
@@ -50,18 +50,18 @@ public final class Constants
   }
   public static class AlgaeConstants {
     // PWM ports/CAN IDs for motor controllers
-    public static final int kAmpShooterID = 12;
+    public static final int kAlgaeID = 12;
 
     // Current limit for launcher and feed wheels
-    public static final int kAmpCurrentLimit = 80;
+    public static final int kAlgaeCurrentLimit = 80;
 
-    // Speeds for wheels when intaking and launching for the Amp. Intake speeds are negative to run the wheels
+    // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
     // in reverse
-    public static final double kAmpIntakeSpeed = .2;
-    public static final double kAmpShot = -.5;
+    public static final double kAlgaeIntakeSpeed = .2;
+    public static final double kAlgaeShot = -.5;
 
-    public static final double kAmpDelay = 1;
+    public static final double kAlgaeDelay = 1;
 
-    public static final double kWheelDiameterInches = 6;
+    public static final double kWheelDiameterInches = 4;
 }
 }
