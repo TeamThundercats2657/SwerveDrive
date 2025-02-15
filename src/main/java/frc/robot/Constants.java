@@ -18,6 +18,8 @@ import swervelib.math.Matter;
  */
 public final class Constants
 {
+ 
+    
 
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
   public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
@@ -41,7 +43,9 @@ public final class Constants
 
   public static class OperatorConstants
   {
-
+    public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControllerPort = 1;
+  
     // Joystick Deadband
     public static final double DEADBAND        = 0.1;
     public static final double LEFT_Y_DEADBAND = 0.1;
@@ -50,7 +54,7 @@ public final class Constants
   }
   public static class AlgaeConstants {
     // PWM ports/CAN IDs for motor controllers
-    public static final int kAlgaeID = 12;
+    public static final int kAlgaeSparkID = 12;
 
     // Current limit for launcher and feed wheels
     public static final int kAlgaeCurrentLimit = 80;
