@@ -15,10 +15,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.DrivebaseConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
+import frc.robot.subsystems.AlgaeSpinner;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -31,8 +33,11 @@ public class RobotContainer
    * switch on the top.*/
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
- 
-
+      private final CommandXboxController m_operaterController =
+      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+      
+      private final AlgaeSpinner m_algaeintake = new AlgaeSpinner();
+      
    
   
   // The robot's subsystems and commands are defined here...
@@ -111,7 +116,9 @@ public class RobotContainer
   private void configureBindings()
   {
   
-
+    m_operaterController.leftBumper().whileTrue(m_algaeintake.getAlgaeIntakeCommand());;
+    m_operaterController.rightBumper().whileTrue(m_algaeintake.getAlgaeReleaseCommand());;
+    
     Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
     
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);

@@ -36,7 +36,7 @@ public final class Constants
 
   public static final class DrivebaseConstants
   {
-
+    
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
@@ -67,5 +67,23 @@ public final class Constants
     public static final double kAlgaeDelay = 1;
 
     public static final double kWheelDiameterInches = 4;
+}
+public static class AlgaeDrawbridgeConstants {
+  // PWM ports/CAN IDs for motor controllers
+  public static final int AlgaeDBRMotor = 13;
+  public static final int AlgaeDBRLMotor = 14;
+  // Current limit for launcher and feed wheels
+  public static final int kAlgaeDBRCurrentLimit = 80;
+  public static final int kAlgaeDBLCurrentLimit = 80;
+  // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
+  // in reverse
+  public static final double kAlgaeDBRIntakeSpeed = .4;
+  public static final double kAlgaeDBLIntakeSpeed = .4;
+  public static final double kAlgaeDBRShot = -.5;
+  public static final double kAlgaeDBLShot = -.5;
+
+  
+
+ 
 }
 }
