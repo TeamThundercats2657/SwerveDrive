@@ -7,13 +7,13 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class AlgaeDrawbridge extends SubsystemBase {
+public class AlgaeDrawbridgeRight extends SubsystemBase {
   SparkMax algaeDrawbridgeSparkMax;
   
 
 
   /** Creates a new Algae. */
-  public AlgaeDrawbridge() {
+  public AlgaeDrawbridgeRight() {
     algaeDrawbridgeSparkMax = new SparkMax(AlgaeDBRMotor , MotorType.kBrushless);
 
     //m_AlgaeWheel.setSmartCurrentLimit(kAlgaeCurrentLimit);
@@ -32,20 +32,20 @@ public class AlgaeDrawbridge extends SubsystemBase {
     return this.startEnd(
         // When the command is initialized, set the wheels to the intake speed values
         () -> {
-          setAlgaeDown(kAlgaeDBRIntakeSpeed);
+          setAlgaeDown(kAlgaeDBRDown);
         },
         // When the command stops, stop the wheels
         () -> {
           stop();
         });
   }
-  public Command getAlgaeReleaseCommand() {
+  public Command getAlgaeUpCommand() {
     // The startEnd helper method takes a method to call when the command is initialized and one to
     // call when it ends
     return this.startEnd(
         // When the command is initialized, set the wheels to the intake speed values
         () -> {
-          setAlgaeUp(-kAlgaeDBRIntakeSpeed);
+          setAlgaeUp(kAlgaeDBRUp);
         },
         // When the command stops, stop the wheels
         () -> {

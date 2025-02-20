@@ -77,10 +77,10 @@ public static class AlgaeDrawbridgeConstants {
   public static final int kAlgaeDBLCurrentLimit = 80;
   // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
   // in reverse
-  public static final double kAlgaeDBRIntakeSpeed = .4;
-  public static final double kAlgaeDBLIntakeSpeed = .4;
-  public static final double kAlgaeDBRShot = -.5;
-  public static final double kAlgaeDBLShot = -.5;
+  public static final double kAlgaeDBRDown = -.3;
+  public static final double kAlgaeDBLUp = -.3;
+  public static final double kAlgaeDBRUp = .3;
+  public static final double kAlgaeDBLDown = .3;
 
   
 

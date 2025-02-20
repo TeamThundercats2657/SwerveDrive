@@ -2,26 +2,20 @@ package frc.robot.commands;
 import static frc.robot.Constants.AlgaeDrawbridgeConstants.*;
     
     import edu.wpi.first.wpilibj2.command.Command;
-    import frc.robot.subsystems.AlgaeDrawbridge;
+    import frc.robot.subsystems.AlgaeDrawbridgeRight;
 
-{
-    
-
-    
-    
-    
     /*This is an exAlgaele of creating a command as a class. The base Command class provides a set of methods that your command
      * will override.
      */
-    public class AlgaeDown extends Command {
-        AlgaeDown m_Algaedown;
+    public class AlgaeRight extends Command {
+        AlgaeDrawbridgeRight m_Algaedown;
       
         // CANLauncher m_launcher;
       
         /** Creates a new AlgaeShot. */
-        public AlgaeDown(AlgaeDrawbridge Algaedown) {
+        public AlgaeRight(AlgaeDrawbridgeRight AlgaeDown) {
           // save the launcher system internally
-          m_Algaedown = Algaedown;
+          m_Algaedown = AlgaeDown;
     
         // indicate that this command requires the launcher system
         addRequirements(m_Algaedown);
@@ -31,7 +25,7 @@ import static frc.robot.Constants.AlgaeDrawbridgeConstants.*;
       @Override
       public void initialize() {
         // Set the wheels to launching speed
-        m_Algaedown.setAlgaeWheel(kAlgaeDBRIntakeSpeed);
+        m_Algaedown.setAlgaeDown(kAlgaeDBRDown);
       }
     
       // Called every time the scheduler runs while the command is scheduled.
@@ -59,4 +53,4 @@ import static frc.robot.Constants.AlgaeDrawbridgeConstants.*;
     }
     
         
-}
+

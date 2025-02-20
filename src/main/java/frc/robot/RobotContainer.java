@@ -20,6 +20,8 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
+import frc.robot.subsystems.AlgaeDrawbridgeLeft;
+import frc.robot.subsystems.AlgaeDrawbridgeRight;
 import frc.robot.subsystems.AlgaeSpinner;
 
 /**
@@ -37,6 +39,8 @@ public class RobotContainer
       new CommandXboxController(OperatorConstants.kOperatorControllerPort);
       
       private final AlgaeSpinner m_algaeintake = new AlgaeSpinner();
+      private final AlgaeDrawbridgeRight m_algaeDBR = new AlgaeDrawbridgeRight();
+      private final AlgaeDrawbridgeLeft m_algaeDBL = new AlgaeDrawbridgeLeft();
       
    
   
@@ -118,6 +122,10 @@ public class RobotContainer
   
     m_operaterController.leftBumper().whileTrue(m_algaeintake.getAlgaeIntakeCommand());;
     m_operaterController.rightBumper().whileTrue(m_algaeintake.getAlgaeReleaseCommand());;
+    m_operaterController.a().whileTrue((m_algaeDBR.getAlgaeDownCommand()));
+    m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
+    m_operaterController.a().whileTrue((m_algaeDBL.getAlgaeDownCommand()));
+    m_operaterController.b().whileTrue((m_algaeDBL.getAlgaeUpCommand()));
     
     Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
     
