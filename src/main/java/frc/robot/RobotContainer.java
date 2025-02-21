@@ -126,6 +126,9 @@ public class RobotContainer
     m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
     m_operaterController.a().whileTrue((m_algaeDBL.getAlgaeDownCommand()));
     m_operaterController.b().whileTrue((m_algaeDBL.getAlgaeUpCommand()));
+    //new Trigger(() -> m_operaterController.getRightY() < 0.1).whileTrue(m_algaeDBR.getAlgaeDownCommand());
+    //new Trigger(() -> m_operaterController.getRightY() < 0.1).whileTrue(m_algaeDBL.getAlgaeUpCommand());
+    
     
     Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
     

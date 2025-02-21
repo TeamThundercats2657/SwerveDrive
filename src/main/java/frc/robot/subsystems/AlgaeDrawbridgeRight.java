@@ -4,6 +4,7 @@ import static frc.robot.Constants.AlgaeDrawbridgeConstants.*;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -72,6 +73,7 @@ public class AlgaeDrawbridgeRight extends SubsystemBase {
   public void stop() {
     algaeDrawbridgeSparkMax.set(0);
   }
+ 
   
 }
 

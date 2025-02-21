@@ -86,4 +86,17 @@ public static class AlgaeDrawbridgeConstants {
 
  
 }
+public static class AlgaePIDConstants {
+  
+  
+  // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
+  // in reverse
+  public static final double kP = 0.0020645;
+  public static final double kI = 0;
+  public static final double kD = 0;
+
+  
+
+ 
+}
 }
