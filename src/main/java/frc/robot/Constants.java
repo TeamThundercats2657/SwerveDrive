@@ -68,10 +68,10 @@ public final class Constants
 
     public static final double kWheelDiameterInches = 4;
 }
-public static class AlgaeDrawbridgeConstants {
+public static class AlgaeArmConstants {
   // PWM ports/CAN IDs for motor controllers
-  public static final int AlgaeDBRMotor = 13;
-  public static final int AlgaeDBRLMotor = 14;
+  public static final int AlgaeArmRMotor = 13;
+  public static final int AlgaeArmLMotor = 14;
   // Current limit for launcher and feed wheels
   public static final int kAlgaeDBRCurrentLimit = 80;
   public static final int kAlgaeDBLCurrentLimit = 80;

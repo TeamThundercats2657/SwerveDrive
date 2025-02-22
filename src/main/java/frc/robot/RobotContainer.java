@@ -17,12 +17,13 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DrivebaseConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AlgaeArmDown;
+import frc.robot.commands.AlgaeArmUp;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
-import frc.robot.subsystems.AlgaeDrawbridgeLeft;
-import frc.robot.subsystems.AlgaeDrawbridgeRight;
 import frc.robot.subsystems.AlgaeSpinner;
+import frc.robot.subsystems.AlgaeArm;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -39,9 +40,9 @@ public class RobotContainer
       new CommandXboxController(OperatorConstants.kOperatorControllerPort);
       
       private final AlgaeSpinner m_algaeintake = new AlgaeSpinner();
-      private final AlgaeDrawbridgeRight m_algaeDBR = new AlgaeDrawbridgeRight();
-      private final AlgaeDrawbridgeLeft m_algaeDBL = new AlgaeDrawbridgeLeft();
-      
+      //private final AlgaeDrawbridgeRight m_algaeDBR = new AlgaeDrawbridgeRight();
+      //private final AlgaeDrawbridgeLeft m_algaeDBL = new AlgaeDrawbridgeLeft();
+      private final AlgaeArm m_algaeArm = new AlgaeArm();
    
   
   // The robot's subsystems and commands are defined here...
@@ -122,10 +123,12 @@ public class RobotContainer
   
     m_operaterController.leftBumper().whileTrue(m_algaeintake.getAlgaeIntakeCommand());;
     m_operaterController.rightBumper().whileTrue(m_algaeintake.getAlgaeReleaseCommand());;
-    m_operaterController.a().whileTrue((m_algaeDBR.getAlgaeDownCommand()));
-    m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
-    m_operaterController.a().whileTrue((m_algaeDBL.getAlgaeDownCommand()));
-    m_operaterController.b().whileTrue((m_algaeDBL.getAlgaeUpCommand()));
+    m_operaterController.a().onTrue(new AlgaeArmDown(m_algaeArm));
+    m_operaterController.b().onTrue(new AlgaeArmUp(m_algaeArm));
+    //m_operaterController.a().whileTrue((m_algaeDBR.getAlgaeDownCommand()));
+    //m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
+    //m_operaterController.a().whileTrue((m_algaeDBL.getAlgaeDownCommand()));
+    //m_operaterController.b().whileTrue((m_algaeDBL.getAlgaeUpCommand()));
     //new Trigger(() -> m_operaterController.getRightY() < 0.1).whileTrue(m_algaeDBR.getAlgaeDownCommand());
     //new Trigger(() -> m_operaterController.getRightY() < 0.1).whileTrue(m_algaeDBL.getAlgaeUpCommand());
     
