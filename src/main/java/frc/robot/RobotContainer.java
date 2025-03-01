@@ -19,7 +19,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeArmDown;
 import frc.robot.commands.AlgaeArmUp;
 import frc.robot.commands.CoralCollectAngle;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.ElevatorM;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -50,7 +50,7 @@ public class RobotContainer
       //private final AlgaeDrawbridgeLeft m_algaeDBL = new AlgaeDrawbridgeLeft();
       private final AlgaeArm m_algaeArm = new AlgaeArm();
       private final CoralArm m_coralArm = new CoralArm();
-      private final Elevator m_Elevator = new Elevator();
+      private final ElevatorM m_ElevatorM = new ElevatorM();
    
   
   // The robot's subsystems and commands are defined here...
@@ -141,7 +141,12 @@ public class RobotContainer
     m_operaterController.rightBumper().whileTrue(m_coralIntake.getCoralReleaseCommand());;
     m_operaterController.x().onTrue(new CoralCollectAngle(m_coralArm));
     m_operaterController.y().onTrue(new CoralReleaseAngle(m_coralArm));
-    m_operaterController.start().onTrue(new ElevatorL1(m_Elevator));
+    //m_operaterController.start().onTrue(new ElevatorL1(m_Elevator));
+    m_operaterController.start().whileTrue(m_ElevatorM.getElevatorMUpCommand());; 
+    
+    m_operaterController.back().whileTrue(m_ElevatorM.getElevatorMDownCommand());; 
+    //m_operaterController.y().onTrue(new ElevatorM(m_ElevatorM.setElevatorSpeed( m_operaterController.y())));
+   // m_operaterController.getLeftY(new ).
     //m_operaterController.a().whileTrue((m_algaeDBR.getAlgaeDownCommand()));
     //m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
     //m_operaterController.a().whileTrue((m_algaeDBL.getAlgaeDownCommand()));
