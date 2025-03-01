@@ -45,18 +45,21 @@ public class AlgaeArm extends SubsystemBase {
     //setting the encoder for the arm
     algaeArmEncoder = algaeArmRSparkMax.getAbsoluteEncoder();
     algaeArmPID.enableContinuousInput(0,1);
+    algaeArmPID.setSetpoint(algaeArmEncoder.getPosition()); 
   }
+  
+  
 public void setArmSetPoint(double setPointdegrees){
   algaeArmPID.setSetpoint(setPointdegrees/360);
 }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber(("Absolute Encoder"), algaeArmEncoder.getPosition());
+    SmartDashboard.putNumber(("Algae Absolute Encoder"), algaeArmEncoder.getPosition());
     algaeArmRSparkMax.set(algaeArmPID.calculate(algaeArmEncoder.getPosition()));
     algaeArmLSparkMax.set(algaeArmPID.calculate(algaeArmEncoder.getPosition()));
-    SmartDashboard.putNumber(("Setpoint"), algaeArmPID.getSetpoint());
-    SmartDashboard.putNumber(("Output"), algaeArmPID.calculate(algaeArmEncoder.getPosition()));
-    SmartDashboard.putData(("PID"), algaeArmPID);
+    SmartDashboard.putNumber(("AlgaeSetpoint"), algaeArmPID.getSetpoint());
+    SmartDashboard.putNumber(("AlgaeOutput"), algaeArmPID.calculate(algaeArmEncoder.getPosition()));
+    SmartDashboard.putData(("AlgaePID"), algaeArmPID);//this is the PID controller
   }
 }

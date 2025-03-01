@@ -86,7 +86,67 @@ public static class AlgaeArmConstants {
 
  
 }
+public static class CoralConstants {
+  // PWM ports/CAN IDs for motor controllers
+  public static final int kCoralSparkID = 16;
+
+  // Current limit for launcher and feed wheels
+  public static final int kCoralCurrentLimit = 80;
+
+  // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
+  // in reverse
+  public static final double kCoralIntakeSpeed = .2;
+  public static final double kCoralShot = -.2;
+
+  public static final double kCoralDelay = 1;
+
+  public static final double kWheelDiameterInches = 2;
+}
+public static class CoralArmConstants {
+  // PWM ports/CAN IDs for motor controllers
+  public static final int CoralArmMotor = 15;
+  // Current limit for launcher and feed wheels
+  public static final int kCoralDBRCurrentLimit = 80;
+  public static final int kCoralDBLCurrentLimit = 80;
+  // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
+  // in reverse
+  public static final double kCoralDown = .4;
+  public static final double kCoralUp = .8;
+
+  
+
+ 
+}
+public static class ElevatorConstants {
+  // PWM ports/CAN IDs for motor controllers
+  public static final int kElevatorSpark = 17;
+
+  // Current limit for launcher and feed wheels
+  public static final int kElevatorCurrentLimit = 80;
+
+  // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
+  // in reverse
+  public static final double kElevatorUp = .5;
+  public static final double kElevator = -.5;
+
+  public static final double kElevatorDelay = 1;
+
+}
 public static class AlgaePIDConstants {
+  
+  
+  // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
+  // in reverse
+  public static final double kP = 0.0020645;
+  public static final double kI = 0;
+  public static final double kD = 0;
+
+  
+
+ 
+}
+
+public static class CoralPIDConstants {
   
   
   // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels

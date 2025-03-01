@@ -19,11 +19,18 @@ import frc.robot.Constants.DrivebaseConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeArmDown;
 import frc.robot.commands.AlgaeArmUp;
+import frc.robot.commands.CoralCollectAngle;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
 import frc.robot.subsystems.AlgaeSpinner;
 import frc.robot.subsystems.AlgaeArm;
+import frc.robot.subsystems.CoralSpinner;
+import frc.robot.subsystems.CoralArm;
+import frc.robot.commands.CoralIntake;
+import frc.robot.commands.CoralRelease;
+import frc.robot.commands.CoralReleaseAngle;
+import frc.robot.commands.CoralCollectAngle;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -40,9 +47,11 @@ public class RobotContainer
       new CommandXboxController(OperatorConstants.kOperatorControllerPort);
       
       private final AlgaeSpinner m_algaeintake = new AlgaeSpinner();
+      private final CoralSpinner m_coralIntake = new CoralSpinner();
       //private final AlgaeDrawbridgeRight m_algaeDBR = new AlgaeDrawbridgeRight();
       //private final AlgaeDrawbridgeLeft m_algaeDBL = new AlgaeDrawbridgeLeft();
       private final AlgaeArm m_algaeArm = new AlgaeArm();
+      private final CoralArm m_coralArm = new CoralArm();
    
   
   // The robot's subsystems and commands are defined here...
@@ -52,10 +61,13 @@ public class RobotContainer
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
+  double getRightX() {
+    return -m_driverController.getRightX();
+  }
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
                                                                 () -> m_driverController.getLeftY() * 1,
                                                                 () -> m_driverController.getLeftX() * 1)
-                                                            .withControllerRotationAxis(m_driverController::getRightX)
+                                                            .withControllerRotationAxis(this::getRightX)
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
@@ -63,7 +75,7 @@ public class RobotContainer
   /**
    * Clone's the angular velocity input stream and converts it to a fieldRelative input stream.
    */
-  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(m_driverController::getRightX,
+  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(this::getRightX,
                                                                                              m_driverController::getRightY)
                                                            .headingWhile(true);
 
@@ -105,8 +117,9 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+    
     // Configure the trigger bindings
-    configureBindings();
+    configureBindings(false);
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
   }
@@ -118,13 +131,17 @@ public class RobotContainer
    * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
-  private void configureBindings()
+  private void configureBindings(boolean robotOriented)
   {
   
     m_operaterController.leftBumper().whileTrue(m_algaeintake.getAlgaeIntakeCommand());;
     m_operaterController.rightBumper().whileTrue(m_algaeintake.getAlgaeReleaseCommand());;
     m_operaterController.a().onTrue(new AlgaeArmDown(m_algaeArm));
     m_operaterController.b().onTrue(new AlgaeArmUp(m_algaeArm));
+    m_operaterController.leftBumper().whileTrue(m_coralIntake.getCoralIntakeCommand());;
+    m_operaterController.rightBumper().whileTrue(m_coralIntake.getCoralReleaseCommand());;
+    m_operaterController.x().onTrue(new CoralCollectAngle(m_coralArm));
+    m_operaterController.y().onTrue(new CoralReleaseAngle(m_coralArm));
     //m_operaterController.a().whileTrue((m_algaeDBR.getAlgaeDownCommand()));
     //m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
     //m_operaterController.a().whileTrue((m_algaeDBL.getAlgaeDownCommand()));
@@ -151,7 +168,7 @@ public class RobotContainer
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
     } else
     {
-      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+      drivebase.setDefaultCommand(robotOriented? driveRobotOrientedAngularVelocity:driveFieldOrientedAnglularVelocity);
     }
 
     if (Robot.isSimulation())
@@ -162,7 +179,7 @@ public class RobotContainer
     }
     if (DriverStation.isTest())
     {
-      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
+      drivebase.setDefaultCommand(robotOriented? driveRobotOrientedAngularVelocity:driveFieldOrientedAnglularVelocity); // Overrides drive command above!
 
       m_driverController.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       m_driverController.y().whileTrue(drivebase.driveToDistanceCommand(1.0, 0.2));

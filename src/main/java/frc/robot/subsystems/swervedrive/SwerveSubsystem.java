@@ -63,7 +63,9 @@ import edu.wpi.first.math.util.Units;
 
 public class SwerveSubsystem extends SubsystemBase
 {
+  // Maximum speed of the robot in meters per second
   double maximumSpeed = Units.feetToMeters(4.5);
+  // File directory of the swerve drive config files.
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
   
   /**
@@ -88,6 +90,7 @@ public class SwerveSubsystem extends SubsystemBase
    *
    * @param directory Directory of swerve drive config files.
    */
+  
   public SwerveSubsystem(File directory)  {
     
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
@@ -106,19 +109,19 @@ public class SwerveSubsystem extends SubsystemBase
     }
     swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via angle.
     swerveDrive.setCosineCompensator(false);//!SwerveDriveTelemetry.isSimulation); // Disables cosine compensation for simulations since it causes discrepancies not seen in real life.
-    swerveDrive.setAngularVelocityCompensation(true,
-                                               true,
+    swerveDrive.setAngularVelocityCompensation(true,// Enable angular velocity compensation to correct for the robot's skew while turning.
+                                               true,// Enable the cosine compensation to correct for the robot's skew while driving.
                                                0.1); //Correct for skew that gets worse as angular velocity increases. Start with a coefficient of 0.1.
-    swerveDrive.setModuleEncoderAutoSynchronize(true,
+    swerveDrive.setModuleEncoderAutoSynchronize(true,// Enable automatic synchronization of the absolute encoders with the motor encoders.
                                                 5); // Enable if you want to resynchronize your absolute encoders and motor encoders periodically when they are not moving.
 //    swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
-    if (visionDriveTest)
+    if (visionDriveTest)// If we are using vision to update odometry while driving, we need to setup PhotonVision.
     {
-      setupPhotonVision();
+      setupPhotonVision();// Setup PhotonVision for odometry updates.
       // Stop the odometry thread if we are using vision that way we can synchronize updates better.
       swerveDrive.stopOdometryThread();
     }
-    setupPathPlanner();
+    setupPathPlanner();// Setup PathPlanner for path following.
   }
 
   /**
@@ -129,36 +132,39 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public SwerveSubsystem(SwerveDriveConfiguration driveCfg, SwerveControllerConfiguration controllerCfg)
   {
-    swerveDrive = new SwerveDrive(driveCfg,
-                                  controllerCfg,
-                                  Constants.MAX_SPEED,
-                                  new Pose2d(new Translation2d(Meter.of(2), Meter.of(0)),
-                                             Rotation2d.fromDegrees(0)));
+    swerveDrive = new SwerveDrive(driveCfg,// SwerveDrive configuration
+                                  controllerCfg,// SwerveController configuration
+                                  Constants.MAX_SPEED,//  Maximum speed of the robot in meters per second
+                                  new Pose2d(new Translation2d(Meter.of(2), Meter.of(0)),// Initial pose of the robot
+                                             Rotation2d.fromDegrees(0)));// Initial heading of the robot
   }
 
   /**
    * Setup the photon vision class.
    */
-  public void setupPhotonVision()
+  public void setupPhotonVision()// Setup PhotonVision for odometry updates.
   {
-    vision = new Vision(swerveDrive::getPose, swerveDrive.field);
+    vision = new Vision(swerveDrive::getPose, swerveDrive.field);// Setup the vision class with the pose supplier and field.
   }
 
   @Override
-  public void periodic()
+  public void periodic()// This method will be called once per scheduler run
   
   {
     
     // When vision is enabled we must manually update odometry in SwerveDrive
-    if (visionDriveTest)
+    if (visionDriveTest)// If we are using vision to update odometry while driving, we need to setup PhotonVision.
     {
-      swerveDrive.updateOdometry();
-      vision.updatePoseEstimation(swerveDrive);
+      swerveDrive.updateOdometry();// Update the odometry of the swerve drive.
+      vision.updatePoseEstimation(swerveDrive);// Update the pose estimation of the robot.
     }
   }
 
   @Override
-  public void simulationPeriodic()
+  public void simulationPeriodic()//  This method will be called once per scheduler run during simulation
+  {
+    // This method will be called once per scheduler run during simulation
+  }
   {
   }
 
@@ -169,12 +175,12 @@ public class SwerveSubsystem extends SubsystemBase
   {
     // Load the RobotConfig from the GUI settings. You should probably
     // store this in your Constants file
-    RobotConfig config;
+    RobotConfig config;// Robot configuration
     try
     {
-      config = RobotConfig.fromGUISettings();
+      config = RobotConfig.fromGUISettings();// Load the robot configuration from the GUI settings.
 
-      final boolean enableFeedforward = true;
+      final boolean enableFeedforward = true;// Enable feedforward for the swerve drive.
       // Configure AutoBuilder last
       AutoBuilder.configure(
           this::getPose,
@@ -183,17 +189,17 @@ public class SwerveSubsystem extends SubsystemBase
           // Method to reset odometry (will be called if your auto has a starting pose)
           this::getRobotVelocity,
           // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-          (speedsRobotRelative, moduleFeedForwards) -> {
-            if (enableFeedforward)
+          (speedsRobotRelative, moduleFeedForwards) -> {// Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            if (enableFeedforward)// If feedforward is enabled
             {
-              swerveDrive.drive(
-                  speedsRobotRelative,
-                  swerveDrive.kinematics.toSwerveModuleStates(speedsRobotRelative),
-                  moduleFeedForwards.linearForces()
+              swerveDrive.drive(// Drive the robot with feedforwards
+                  speedsRobotRelative,// Robot relative speeds
+                  swerveDrive.kinematics.toSwerveModuleStates(speedsRobotRelative),// Module states
+                  moduleFeedForwards.linearForces()// Linear forces
                                );
-            } else
+            } else// If feedforward is disabled
             {
-              swerveDrive.setChassisSpeeds(speedsRobotRelative);
+              swerveDrive.setChassisSpeeds(speedsRobotRelative);// Set the chassis speeds
             }
           },
           // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
@@ -211,12 +217,12 @@ public class SwerveSubsystem extends SubsystemBase
             // This will flip the path being followed to the red side of the field.
             // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-            var alliance = DriverStation.getAlliance();
-            if (alliance.isPresent())
+            var alliance = DriverStation.getAlliance();// Get the alliance of the robot
+            if (alliance.isPresent())// If the alliance is present
             {
-              return alliance.get() == DriverStation.Alliance.Red;
+              return alliance.get() == DriverStation.Alliance.Red;// Return true if the alliance is red
             }
-            return false;
+            return false;// Return false if the alliance is not present
           },
           this
           // Reference to this subsystem to set requirements
@@ -225,12 +231,12 @@ public class SwerveSubsystem extends SubsystemBase
     } catch (Exception e)
     {
       // Handle exception as needed
-      e.printStackTrace();
+      e.printStackTrace();// Print the stack trace
     }
 
     //Preload PathPlanner Path finding
     // IF USING CUSTOM PATHFINDER ADD BEFORE THIS LINE
-    PathfindingCommand.warmupCommand().schedule();
+    PathfindingCommand.warmupCommand().schedule();// Warmup the pathfinding command
   }
 
   /**
@@ -238,19 +244,19 @@ public class SwerveSubsystem extends SubsystemBase
    *
    * @return A {@link Command} which will run the alignment.
    */
-  public Command aimAtTarget(Cameras camera)
+  public Command aimAtTarget(Cameras camera)// Aim the robot at the target returned by PhotonVision.
   {
 
-    return run(() -> {
-      Optional<PhotonPipelineResult> resultO = camera.getBestResult();
-      if (resultO.isPresent())
+    return run(() -> {// Run the command
+      Optional<PhotonPipelineResult> resultO = camera.getBestResult();// Get the best result from the camera
+      if (resultO.isPresent())// If the result is present
       {
-        var result = resultO.get();
-        if (result.hasTargets())
+        var result = resultO.get();// Get the result
+        if (result.hasTargets())// If the result has targets
         {
-          drive(getTargetSpeeds(0,
-                                0,
-                                Rotation2d.fromDegrees(result.getBestTarget()
+          drive(getTargetSpeeds(0,// Get the target speeds
+                                0,// Get the target speeds
+                                Rotation2d.fromDegrees(result.getBestTarget()// Get the best
                                                              .getYaw()))); // Not sure if this will work, more math may be required.
         }
       }
@@ -263,10 +269,10 @@ public class SwerveSubsystem extends SubsystemBase
    * @param pathName PathPlanner path name.
    * @return {@link AutoBuilder#followPath(PathPlannerPath)} path command.
    */
-  public Command getAutonomousCommand(String pathName)
+  public Command getAutonomousCommand(String pathName)// Get the path follower with events.
   {
     // Create a path following command using AutoBuilder. This will also trigger event markers.
-    return new PathPlannerAuto(pathName);
+    return new PathPlannerAuto(pathName);// PathPlannerAuto command
   }
 
   /**
@@ -275,7 +281,7 @@ public class SwerveSubsystem extends SubsystemBase
    * @param pose Target {@link Pose2d} to go to.
    * @return PathFinding command
    */
-  public Command driveToPose(Pose2d pose)
+  public Command driveToPose(Pose2d pose)// Use PathPlanner Path finding to go to a point on the field.
   {
 // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
