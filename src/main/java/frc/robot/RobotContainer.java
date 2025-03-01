@@ -15,11 +15,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.DrivebaseConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeArmDown;
 import frc.robot.commands.AlgaeArmUp;
 import frc.robot.commands.CoralCollectAngle;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -27,10 +27,8 @@ import frc.robot.subsystems.AlgaeSpinner;
 import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.CoralSpinner;
 import frc.robot.subsystems.CoralArm;
-import frc.robot.commands.CoralIntake;
-import frc.robot.commands.CoralRelease;
 import frc.robot.commands.CoralReleaseAngle;
-import frc.robot.commands.CoralCollectAngle;
+import frc.robot.commands.ElevatorL1;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -52,6 +50,7 @@ public class RobotContainer
       //private final AlgaeDrawbridgeLeft m_algaeDBL = new AlgaeDrawbridgeLeft();
       private final AlgaeArm m_algaeArm = new AlgaeArm();
       private final CoralArm m_coralArm = new CoralArm();
+      private final Elevator m_Elevator = new Elevator();
    
   
   // The robot's subsystems and commands are defined here...
@@ -142,6 +141,7 @@ public class RobotContainer
     m_operaterController.rightBumper().whileTrue(m_coralIntake.getCoralReleaseCommand());;
     m_operaterController.x().onTrue(new CoralCollectAngle(m_coralArm));
     m_operaterController.y().onTrue(new CoralReleaseAngle(m_coralArm));
+    m_operaterController.start().onTrue(new ElevatorL1(m_Elevator));
     //m_operaterController.a().whileTrue((m_algaeDBR.getAlgaeDownCommand()));
     //m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
     //m_operaterController.a().whileTrue((m_algaeDBL.getAlgaeDownCommand()));
@@ -150,16 +150,16 @@ public class RobotContainer
     //new Trigger(() -> m_operaterController.getRightY() < 0.1).whileTrue(m_algaeDBL.getAlgaeUpCommand());
     
     
-    Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
+    //Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
     
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveRobotOrientedAngularVelocity  = drivebase.driveFieldOriented(driveRobotOriented);
-    Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(
-        driveDirectAngle);
+    //Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(
+     //   driveDirectAngle);
     Command driveFieldOrientedDirectAngleKeyboard      = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
-    Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
-    Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
-        driveDirectAngleKeyboard);
+   // Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
+    //Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
+     //   driveDirectAngleKeyboard);
 
            
 
