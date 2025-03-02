@@ -50,7 +50,7 @@ public class RobotContainer
       //private final AlgaeDrawbridgeLeft m_algaeDBL = new AlgaeDrawbridgeLeft();
       private final AlgaeArm m_algaeArm = new AlgaeArm();
       private final CoralArm m_coralArm = new CoralArm();
-      private final ElevatorM m_ElevatorM = new ElevatorM();
+      private final ElevatorM m_ElevatorM = new ElevatorM(m_operaterController::getLeftY);
    
   
   // The robot's subsystems and commands are defined here...

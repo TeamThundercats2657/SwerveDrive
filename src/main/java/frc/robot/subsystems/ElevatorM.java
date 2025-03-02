@@ -20,19 +20,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.function.DoubleSupplier;
+
 public class ElevatorM extends SubsystemBase {
   SparkMax m_ElevatorMWheel;
+  // motor controller?
   private final SparkMaxConfig ElevatorSparkMaxConfig = new SparkMaxConfig();
-  //setting up the PID controller for the 
+
+  // setting up the PID controller for the 
   private final PIDController ElevatorPID = new PIDController(1, 0, 0.05);
-  //setting up the encoder for the 
- private final SparkAbsoluteEncoder ElevatorEncoder  ;
+
+  // setting up the encoder for the 
+  private final SparkAbsoluteEncoder ElevatorEncoder;
+
+  // Function to get the manual speed we want to set for the
+  // motor.  This will only apply when the elevation isn't
+  // being moved automatically to one of the setpoints.
+  private DoubleSupplier getManualElevationChangeSpeed;
+
+  // Flag that flips to false when the elevation motor is being
+  // controlled automatically by the PIDController, disabling
+  // manual control.
+  private boolean manualControl = true;
+
+
   /** Creates a new Elevator. */
 
 
   /** Creates a new ElevatorM. */
-  public ElevatorM() {
+  public ElevatorM(DoubleSupplier getManualElevationChangeSpeed) {
     m_ElevatorMWheel = new SparkMax(kElevatorSpark, SparkMax.MotorType.kBrushless);
+    this.getManualElevationChangeSpeed = getManualElevationChangeSpeed;
 
     //m_ElevatorMWheel.setSmartCurrentLimit(kElevatorMCurrentLimit);
     //created 2 different motors for the  above on 16 and 17 and we made the configurations on line 18 and 19
@@ -61,6 +79,10 @@ public void setSetPoint(double setPointrotations){
     SmartDashboard.putNumber(("ElevatorSetpoint"), ElevatorPID.getSetpoint());
     SmartDashboard.putNumber(("ElevatorOutput"), ElevatorPID.calculate(ElevatorEncoder.getPosition()));
     SmartDashboard.putData(("ElevatorPID"), ElevatorPID);//this is the PID controller
+
+    if (manualControl) {
+      setElevatorMWheel(getManualElevationChangeSpeed.getAsDouble());
+    }
   }
 
   /**
@@ -76,11 +98,13 @@ public void setSetPoint(double setPointrotations){
     return this.startEnd(
         // When the command is initialized, set the wheels to the intake speed values
         () -> {
+          manualControl = false;
           setElevatorMWheel(kElevatorDownSpeed);
         },
         // When the command stops, stop the wheels
         () -> {
           stop();
+          manualControl = true;
         });
   }
   public Command getElevatorMDownCommand() {
@@ -89,11 +113,13 @@ public void setSetPoint(double setPointrotations){
     return this.startEnd(
         // When the command is initialized, set the wheels to the intake speed values
         () -> {
+          manualControl = false;
           setElevatorMWheel(kElevatorUpSpeed);
         },
         // When the command stops, stop the wheels
         () -> {
           stop();
+          manualControl = true;
         });
   }
 
