@@ -10,11 +10,8 @@ import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
-
-import static frc.robot.Constants.CoralArmConstants.*;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +25,15 @@ public class ElevatorM extends SubsystemBase {
   //setting up the encoder for the 
  private final SparkAbsoluteEncoder ElevatorEncoder  ;
   /** Creates a new Elevator. */
+  public void setElevatorSpeed(double speed) {
+    
+
+    // Implementation for setting the elevator speed
+    }
+    public void rotateTo(int position) {
+
+        // Implementation of the rotateTo method
+    }
 
 
   /** Creates a new ElevatorM. */

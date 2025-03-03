@@ -5,6 +5,8 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.RotationTarget;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeArmDown;
 import frc.robot.commands.AlgaeArmUp;
+import frc.robot.commands.CoralAllDown;
+import frc.robot.commands.CoralAllUp;
 import frc.robot.commands.CoralCollectAngle;
 import frc.robot.subsystems.ElevatorM;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -28,7 +32,9 @@ import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.CoralSpinner;
 import frc.robot.subsystems.CoralArm;
 import frc.robot.commands.CoralReleaseAngle;
+//import frc.robot.commands.ElevatorL1;
 import frc.robot.commands.ElevatorL1;
+import frc.robot.commands.ElevatorL2;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -51,6 +57,7 @@ public class RobotContainer
       private final AlgaeArm m_algaeArm = new AlgaeArm();
       private final CoralArm m_coralArm = new CoralArm();
       private final ElevatorM m_ElevatorM = new ElevatorM();
+      ;
    
   
   // The robot's subsystems and commands are defined here...
@@ -139,14 +146,14 @@ public class RobotContainer
     m_operaterController.b().onTrue(new AlgaeArmUp(m_algaeArm));
     m_operaterController.leftBumper().whileTrue(m_coralIntake.getCoralIntakeCommand());;
     m_operaterController.rightBumper().whileTrue(m_coralIntake.getCoralReleaseCommand());;
-    m_operaterController.x().onTrue(new CoralCollectAngle(m_coralArm));
-    m_operaterController.y().onTrue(new CoralReleaseAngle(m_coralArm));
+    m_operaterController.povLeft().onTrue(new CoralCollectAngle(m_coralArm));
+    m_operaterController.povRight().onTrue(new CoralReleaseAngle(m_coralArm));
+    m_operaterController.povDown().onTrue(new CoralAllDown(m_coralArm));
+    m_operaterController.povUp().onTrue(new CoralAllUp(m_coralArm));
     //m_operaterController.start().onTrue(new ElevatorL1(m_Elevator));
-    m_operaterController.start().whileTrue(m_ElevatorM.getElevatorMUpCommand());; 
-    
-    m_operaterController.back().whileTrue(m_ElevatorM.getElevatorMDownCommand());; 
-    //m_operaterController.y().onTrue(new ElevatorM(m_ElevatorM.setElevatorSpeed( m_operaterController.y())));
-   // m_operaterController.getLeftY(new ).
+    m_operaterController.x().whileTrue(m_ElevatorM.getElevatorMUpCommand());; 
+    m_operaterController.y().whileTrue(m_ElevatorM.getElevatorMDownCommand());; 
+    m_operaterController.start().onTrue(new ElevatorL2(m_ElevatorM));
     //m_operaterController.a().whileTrue((m_algaeDBR.getAlgaeDownCommand()));
     //m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
     //m_operaterController.a().whileTrue((m_algaeDBL.getAlgaeDownCommand()));
