@@ -10,18 +10,24 @@ import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+
 public class ElevatorM extends SubsystemBase {
   SparkMax m_ElevatorMWheel;
+  //motor controller
   private final SparkMaxConfig ElevatorSparkMaxConfig = new SparkMaxConfig();
+
   //setting up the PID controller for the 
   private final PIDController ElevatorPID = new PIDController(1, 0, 0.05);
+
   //setting up the encoder for the 
  private final SparkAbsoluteEncoder ElevatorEncoder  ;
   /** Creates a new Elevator. */
@@ -122,7 +128,12 @@ public void setSetPoint(double setPointrotations){
   public void stop() {
     m_ElevatorMWheel.set(0);
   }
-  
+  // A helper method to stop both wheels. You could skip having a method like this and call the
+  // individual accessors with speed = 0 instead
+  public double rotation() {
+    return ElevatorPID.calculate(ElevatorEncoder.getPosition());
+    
+  }
 }
 
 

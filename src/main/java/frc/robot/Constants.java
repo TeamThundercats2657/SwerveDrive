@@ -126,8 +126,8 @@ public static class ElevatorConstants {
 
   // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
   // in reverse
-  public static final double kElevatorUpSpeed = .4;
-  public static final double kElevatorDownSpeed = -.4;
+  public static final double kElevatorUpSpeed = .3;
+  public static final double kElevatorDownSpeed = -.2;
 
   public static final double kElevatorDelay = 1;
 

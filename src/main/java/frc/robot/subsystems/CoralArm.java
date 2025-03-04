@@ -23,7 +23,7 @@ public class CoralArm extends SubsystemBase {
   private final SparkMax CoralArmSparkMax = new SparkMax(CoralArmMotor, SparkMax.MotorType.kBrushless);
   private final SparkMaxConfig CoralArmSparkMaxConfig = new SparkMaxConfig();
   //setting up the PID controller for the arm
-  private final PIDController CoralArmPID = new PIDController(1, 0, 0.05);
+  private final PIDController CoralArmPID = new PIDController(.8, 0, 0.05);
   //setting up the encoder for the arm
  private final SparkAbsoluteEncoder CoralArmEncoder  ;
   /** Creates a new CoralArm. */

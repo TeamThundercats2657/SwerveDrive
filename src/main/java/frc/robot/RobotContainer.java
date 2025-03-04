@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.RotationTarget;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+import frc.robot.commands.*;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeArmDown;
 import frc.robot.commands.AlgaeArmUp;
@@ -26,14 +30,18 @@ import frc.robot.commands.CoralCollectAngle;
 import frc.robot.subsystems.ElevatorM;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+import java.nio.file.Path;
+
 import swervelib.SwerveInputStream;
 import frc.robot.subsystems.AlgaeSpinner;
 import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.CoralSpinner;
 import frc.robot.subsystems.CoralArm;
 import frc.robot.commands.CoralReleaseAngle;
+import frc.robot.commands.ElevatorL1Down;
+import frc.robot.commands.ElevatorL1Up;
 //import frc.robot.commands.ElevatorL1;
-import frc.robot.commands.ElevatorL1;
+import frc.robot.commands.ElevatorL1UPwithwhile;
 import frc.robot.commands.ElevatorL2;
 
 /**
@@ -57,8 +65,11 @@ public class RobotContainer
       private final AlgaeArm m_algaeArm = new AlgaeArm();
       private final CoralArm m_coralArm = new CoralArm();
       private final ElevatorM m_ElevatorM = new ElevatorM();
-      ;
+      
+      
+      private final SendableChooser<String> autoChooser = new SendableChooser<>();   
    
+  
   
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -118,16 +129,28 @@ public class RobotContainer
                                                                                .headingWhile(true);
 
  
-                                                                               /**
+  /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer()
   {
+  configureAutoChooser();
+  SmartDashboard.putData("Auto Selector", autoChooser);
+  // Put the chooser on the dashboard
     
     // Configure the trigger bindings
     configureBindings(false);
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+  }
+
+  /**
+   * Configures the autonomous chooser options.
+   */
+  private void configureAutoChooser() {
+    // Add options to the autoChooser here
+    autoChooser.setDefaultOption("New Auto", "New Auto");
+    autoChooser.addOption("ID20J Auto", "ID20J Auto");
   }
 
   /**
@@ -153,7 +176,8 @@ public class RobotContainer
     //m_operaterController.start().onTrue(new ElevatorL1(m_Elevator));
     m_operaterController.x().whileTrue(m_ElevatorM.getElevatorMUpCommand());; 
     m_operaterController.y().whileTrue(m_ElevatorM.getElevatorMDownCommand());; 
-    m_operaterController.start().onTrue(new ElevatorL2(m_ElevatorM));
+    m_operaterController.start().onTrue(new ElevatorL1Up(m_ElevatorM));
+    m_operaterController.back().onTrue(new ElevatorL1Down(m_ElevatorM));
     //m_operaterController.a().whileTrue((m_algaeDBR.getAlgaeDownCommand()));
     //m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
     //m_operaterController.a().whileTrue((m_algaeDBL.getAlgaeDownCommand()));
@@ -223,7 +247,8 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    return drivebase.getAutonomousCommand("ID20J");
+    
   }
 
   public void setMotorBrake(boolean brake)
