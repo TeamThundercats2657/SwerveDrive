@@ -9,6 +9,19 @@
           "data": {
             "pathName": "Algae then ID 21"
           }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": null
+                }
+              }
+            ]
+          }
         }
       ]
     }
