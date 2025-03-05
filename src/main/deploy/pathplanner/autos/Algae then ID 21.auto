@@ -9,18 +9,6 @@
           "data": {
             "pathName": "Algae then ID 21"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Algae Release"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
         }
       ]
     }

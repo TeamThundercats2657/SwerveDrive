@@ -19,14 +19,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
+//import frc.robot.commands.ElevatorL1;
 import frc.robot.commands.*;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.AlgaeArmDown;
-import frc.robot.commands.AlgaeArmUp;
-import frc.robot.commands.CoralAllDown;
-import frc.robot.commands.CoralAllUp;
-import frc.robot.commands.CoralCollectAngle;
 import frc.robot.subsystems.ElevatorM;
 //import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -38,13 +33,6 @@ import frc.robot.subsystems.AlgaeSpinner;
 import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.CoralSpinner;
 import frc.robot.subsystems.CoralArm;
-import frc.robot.commands.CoralReleaseAngle;
-import frc.robot.commands.ElevatorL1Down;
-import frc.robot.commands.ElevatorL1Up;
-//import frc.robot.commands.ElevatorL1;
-import frc.robot.commands.ElevatorL1UPwithwhile;
-import frc.robot.commands.ElevatorL2;
-import frc.robot.commands.ElevatorL3;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -135,11 +123,25 @@ public class RobotContainer
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer()
-  {
+  public RobotContainer()  {
+    
   configureAutoChooser();
   SmartDashboard.putData("Auto Selector", autoChooser);
   // Put the chooser on the dashboard
+
+  NamedCommands.registerCommand("AlgaeArmDown", new AlgaeArmDown(m_algaeArm));
+  NamedCommands.registerCommand("AlgaeArmUp", new AlgaeArmUp(m_algaeArm));
+  NamedCommands.registerCommand("AlgaeIntake", new AlgaeIntake(m_algaeintake));
+  NamedCommands.registerCommand("AlgaeRelease", new AlgaeRelease(m_algaeintake));
+  NamedCommands.registerCommand("CoralAllDown", new CoralAllDown(m_coralArm));
+  NamedCommands.registerCommand("CoralCollectAngle", new CoralCollectAngle(m_coralArm));
+  NamedCommands.registerCommand("CoralIntake", new CoralIntake(m_coralIntake));
+  NamedCommands.registerCommand("Coral Release", new CoralRelease(m_coralIntake));
+  NamedCommands.registerCommand("CoralReleaseAngle", new CoralReleaseAngle(m_coralArm));
+  NamedCommands.registerCommand("ElevatorDown",new ElevatorDown(m_ElevatorM));
+  NamedCommands.registerCommand("ElevatorL1Down", new ElevatorL1Down(m_ElevatorM));
+  NamedCommands.registerCommand("ElevatorL1Up", new ElevatorL1Up(m_ElevatorM));
+
     
     // Configure the trigger bindings
     configureBindings(false);
