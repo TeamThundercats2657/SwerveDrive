@@ -28,6 +28,7 @@ import frc.robot.commands.CoralAllDown;
 import frc.robot.commands.CoralAllUp;
 import frc.robot.commands.CoralCollectAngle;
 import frc.robot.subsystems.ElevatorM;
+//import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import java.nio.file.Path;
@@ -43,6 +44,7 @@ import frc.robot.commands.ElevatorL1Up;
 //import frc.robot.commands.ElevatorL1;
 import frc.robot.commands.ElevatorL1UPwithwhile;
 import frc.robot.commands.ElevatorL2;
+import frc.robot.commands.ElevatorL3;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -65,6 +67,7 @@ public class RobotContainer
       private final AlgaeArm m_algaeArm = new AlgaeArm();
       private final CoralArm m_coralArm = new CoralArm();
       private final ElevatorM m_ElevatorM = new ElevatorM();
+      //private final Elevator m_Elevator = new Elevator();
       
       
       private final SendableChooser<String> autoChooser = new SendableChooser<>();   
@@ -149,8 +152,11 @@ public class RobotContainer
    */
   private void configureAutoChooser() {
     // Add options to the autoChooser here
-    autoChooser.setDefaultOption("New Auto", "New Auto");
-    autoChooser.addOption("ID20J Auto", "ID20J Auto");
+    autoChooser.setDefaultOption("Algae", "Algae");
+    autoChooser.addOption("ID20 Auto", "ID21");
+    autoChooser.addOption("ID21 Auto", "ID21");
+    autoChooser.addOption("ID22 Auto", "ID22 Auto");
+    autoChooser.addOption("Algae then ID21", "ID23 Auto");
   }
 
   /**
@@ -178,6 +184,7 @@ public class RobotContainer
     m_operaterController.y().whileTrue(m_ElevatorM.getElevatorMDownCommand());; 
     m_operaterController.start().onTrue(new ElevatorL1Up(m_ElevatorM));
     m_operaterController.back().onTrue(new ElevatorL1Down(m_ElevatorM));
+    //m_operaterController.povDownLeft().onTrue(new ElevatorL3(m_Elevator));
     //m_operaterController.a().whileTrue((m_algaeDBR.getAlgaeDownCommand()));
     //m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
     //m_operaterController.a().whileTrue((m_algaeDBL.getAlgaeDownCommand()));
@@ -247,7 +254,7 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    return drivebase.getAutonomousCommand(autoChooser.getSelected());
     
   }
 
