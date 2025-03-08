@@ -77,10 +77,10 @@ public static class AlgaeArmConstants {
   public static final int kAlgaeDBLCurrentLimit = 80;
   // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
   // in reverse
-  public static final double kAlgaeDBRDown = -.3;
-  public static final double kAlgaeDBLUp = -.3;
-  public static final double kAlgaeDBRUp = .3;
-  public static final double kAlgaeDBLDown = .3;
+  public static final double kAlgaeDBRDown = -.8;
+  //public static final double kAlgaeDBLUp = -.6;
+  public static final double kAlgaeDBRUp = .8;
+  //public static final double kAlgaeDBLDown = .3;
 
   
 
@@ -126,8 +126,8 @@ public static class ElevatorConstants {
 
   // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
   // in reverse
-  public static final double kElevatorUpSpeed = .5;
-  public static final double kElevatorDownSpeed = -.3;
+  public static final double kElevatorUpSpeed = .2;
+  public static final double kElevatorDownSpeed = -.2;
 
   public static final double kElevatorDelay = 1;
 

@@ -5,14 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.ElevatorM;
+import frc.robot.subsystems.Elevator;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ElevatorL4 extends InstantCommand {
-  private final ElevatorM m_Elevator;
-  public ElevatorL4(ElevatorM Elevator) {
+public class ElevatorL1 extends InstantCommand {
+  private final Elevator m_Elevator;
+  public ElevatorL1(Elevator Elevator) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Elevator = Elevator;
   }
@@ -20,6 +20,6 @@ public class ElevatorL4 extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-m_Elevator.setSetPoint(360);
+m_Elevator.setSetPoint(0.1);
   }
 }

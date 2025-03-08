@@ -22,6 +22,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ElevatorM extends SubsystemBase {
   SparkMax m_ElevatorMWheel;
+  private int m_Level;
+
+  
+  
   //motor controller
   private final SparkMaxConfig ElevatorSparkMaxConfig = new SparkMaxConfig();
 
@@ -36,15 +40,14 @@ public class ElevatorM extends SubsystemBase {
 
     // Implementation for setting the elevator speed
     }
-    public void rotateTo(int position) {
-
-        // Implementation of the rotateTo method
-    }
+    
 
 
   /** Creates a new ElevatorM. */
   public ElevatorM() {
-    m_ElevatorMWheel = new SparkMax(kElevatorSpark, SparkMax.MotorType.kBrushless);
+
+    m_Level = 1;
+    m_ElevatorMWheel = new SparkMax(18, SparkMax.MotorType.kBrushless);
 
     //m_ElevatorMWheel.setSmartCurrentLimit(kElevatorMCurrentLimit);
     //created 2 different motors for the  above on 16 and 17 and we made the configurations on line 18 and 19
@@ -57,7 +60,8 @@ public class ElevatorM extends SubsystemBase {
     m_ElevatorMWheel.configure(ElevatorSparkMaxConfig,ResetMode.kNoResetSafeParameters,PersistMode.kNoPersistParameters);
    //setting the PID controller for the //setting the encoder for the 
    ElevatorEncoder = m_ElevatorMWheel.getAbsoluteEncoder();
-    ElevatorPID.enableContinuousInput(0,1);
+
+    //ElevatorPID.enableContinuousInput(0,1);
     ElevatorPID.setSetpoint(ElevatorEncoder.getPosition()); 
   }
   
@@ -127,6 +131,24 @@ public void setSetPoint(double setPointrotations){
   // individual accessors with speed = 0 instead
   public void stop() {
     m_ElevatorMWheel.set(0);
+  }
+  //Then back in the ElevatorM class, add this around line 25:
+
+/** Creates value for the Current Level of the Elevator. */
+
+//Put this above setLevel
+
+//then add these two helper methods below the rotation one we created:
+
+// A helper method to set the level value based on input
+// should be something like: 1, 2, 3
+public void setLevel(int newLevel) {
+  m_Level = newLevel;
+  }
+   // A helper method to get the level value based on current system
+  public int getLevel() {
+  //we need to check or figure out how to establish the current level when the system starts.
+  return m_Level;
   }
   // A helper method to stop both wheels. You could skip having a method like this and call the
   // individual accessors with speed = 0 instead

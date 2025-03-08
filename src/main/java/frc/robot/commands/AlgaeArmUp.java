@@ -20,6 +20,6 @@ public class AlgaeArmUp extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-m_algaeArm.setArmSetPoint(15);
+m_algaeArm.setArmSetPoint(140);
   }
 }

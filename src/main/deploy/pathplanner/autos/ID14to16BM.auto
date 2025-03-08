@@ -7,17 +7,29 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Algae then ID 21"
+            "pathName": "ID14to16BMPath"
           }
         },
         {
-          "type": "sequential",
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": null
+                  "name": "CoralReleaseAngle"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CoralRlease"
                 }
               }
             ]

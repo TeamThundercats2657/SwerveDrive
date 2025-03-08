@@ -22,8 +22,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 //import frc.robot.commands.ElevatorL1;
 import frc.robot.commands.*;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.ElevatorM;
-//import frc.robot.subsystems.Elevator;
+//import frc.robot.subsystems.ElevatorM;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import java.nio.file.Path;
@@ -39,8 +39,9 @@ import frc.robot.subsystems.CoralArm;
  * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
  * Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
  */
-public class RobotContainer
-{
+public class RobotContainer {
+
+  private final SendableChooser<Command> autoChooser;
 /*The gamepad provided in the KOP shows up like an XBox controller if the mode switch is set to X mode using the
    * switch on the top.*/
   private final CommandXboxController m_driverController =
@@ -54,11 +55,11 @@ public class RobotContainer
       //private final AlgaeDrawbridgeLeft m_algaeDBL = new AlgaeDrawbridgeLeft();
       private final AlgaeArm m_algaeArm = new AlgaeArm();
       private final CoralArm m_coralArm = new CoralArm();
-      private final ElevatorM m_ElevatorM = new ElevatorM();
-      //private final Elevator m_Elevator = new Elevator();
+      //private final ElevatorM m_ElevatorM = new ElevatorM();
+      private final Elevator m_Elevator = new Elevator();
       
       
-      private final SendableChooser<String> autoChooser = new SendableChooser<>();   
+       
    
   
   
@@ -124,9 +125,11 @@ public class RobotContainer
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer()  {
+
     
-  configureAutoChooser();
-  SmartDashboard.putData("Auto Selector", autoChooser);
+    
+  
+  
   // Put the chooser on the dashboard
 
   NamedCommands.registerCommand("AlgaeArmDown", new AlgaeArmDown(m_algaeArm));
@@ -138,28 +141,24 @@ public class RobotContainer
   NamedCommands.registerCommand("CoralIntake", new CoralIntake(m_coralIntake));
   NamedCommands.registerCommand("Coral Release", new CoralRelease(m_coralIntake));
   NamedCommands.registerCommand("CoralReleaseAngle", new CoralReleaseAngle(m_coralArm));
-  NamedCommands.registerCommand("ElevatorDown",new ElevatorDown(m_ElevatorM));
-  NamedCommands.registerCommand("ElevatorL1Down", new ElevatorL1Down(m_ElevatorM));
-  NamedCommands.registerCommand("ElevatorL1Up", new ElevatorL1Up(m_ElevatorM));
-
+  //NamedCommands.registerCommand("ElevatorDown",new ElevatorDown(m_ElevatorM));
+  //NamedCommands.registerCommand("ElevatorL1Down", new ElevatorL1Down(m_ElevatorM));
+  //NamedCommands.registerCommand("ElevatorL1Up", new ElevatorL1Up(m_ElevatorM));
+  NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+  
     
     // Configure the trigger bindings
     configureBindings(false);
     DriverStation.silenceJoystickConnectionWarning(true);
-    NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("AutoChooser", autoChooser);
   }
 
   /**
    * Configures the autonomous chooser options.
    */
-  private void configureAutoChooser() {
-    // Add options to the autoChooser here
-    autoChooser.setDefaultOption("Algae", "Algae");
-    autoChooser.addOption("ID20 Auto", "ID21");
-    autoChooser.addOption("ID21 Auto", "ID21");
-    autoChooser.addOption("ID22 Auto", "ID22 Auto");
-    autoChooser.addOption("Algae then ID21", "ID23 Auto");
-  }
+  
+  
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -182,10 +181,12 @@ public class RobotContainer
     m_operaterController.povDown().onTrue(new CoralAllDown(m_coralArm));
     m_operaterController.povUp().onTrue(new CoralAllUp(m_coralArm));
     //m_operaterController.start().onTrue(new ElevatorL1(m_Elevator));
-    m_operaterController.x().whileTrue(m_ElevatorM.getElevatorMUpCommand());; 
-    m_operaterController.y().whileTrue(m_ElevatorM.getElevatorMDownCommand());; 
-    m_operaterController.start().onTrue(new ElevatorL1Up(m_ElevatorM));
-    m_operaterController.back().onTrue(new ElevatorL1Down(m_ElevatorM));
+    m_operaterController.x().whileTrue(new ElevatorL1(m_Elevator));; 
+    m_operaterController.y().whileTrue(new ElevatorL2(m_Elevator));;
+    m_operaterController.start().whileTrue(new ElevatorL3(m_Elevator));;
+    //m_operaterController.y().whileTrue(m_ElevatorM.getElevatorMDownCommand());; 
+    //m_operaterController.start().onTrue(new ElevatorL2(m_Elevator));
+    //m_operaterController.back().onTrue(new ElevatorShane(m_ElevatorM));
     //m_operaterController.povDownLeft().onTrue(new ElevatorL3(m_Elevator));
     //m_operaterController.a().whileTrue((m_algaeDBR.getAlgaeDownCommand()));
     //m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
@@ -255,8 +256,7 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
-    // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand(autoChooser.getSelected());
+    return autoChooser.getSelected();
     
   }
 
