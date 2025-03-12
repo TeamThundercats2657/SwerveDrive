@@ -13,11 +13,13 @@ public class CoralIntake extends Command {
     CoralSpinner m_Coralintake;
   
     // CANLauncher m_launcher;
+    CoralSpinner m_Coralrelease;
   
     /** Creates a new CoralShot. */
     public CoralIntake(CoralSpinner Coralintake) {
       // save the launcher system internally
       m_Coralintake = Coralintake;
+      m_Coralrelease = Coralintake;
 
     // indicate that this command requires the launcher system
     addRequirements(m_Coralintake);
@@ -28,6 +30,7 @@ public class CoralIntake extends Command {
   public void initialize() {
     // Set the wheels to launching speed
     m_Coralintake.setCoralWheel(kCoralIntakeSpeed);
+    m_Coralrelease.setCoralWheel(-kCoralIntakeSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -9,6 +9,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.RotationTarget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -51,8 +52,6 @@ public class RobotContainer {
       
       private final AlgaeSpinner m_algaeintake = new AlgaeSpinner();
       private final CoralSpinner m_coralIntake = new CoralSpinner();
-      //private final AlgaeDrawbridgeRight m_algaeDBR = new AlgaeDrawbridgeRight();
-      //private final AlgaeDrawbridgeLeft m_algaeDBL = new AlgaeDrawbridgeLeft();
       private final AlgaeArm m_algaeArm = new AlgaeArm();
       private final CoralArm m_coralArm = new CoralArm();
       //private final ElevatorM m_ElevatorM = new ElevatorM();
@@ -125,7 +124,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer()  {
-
+    
     
     
   
@@ -136,11 +135,15 @@ public class RobotContainer {
   NamedCommands.registerCommand("AlgaeArmUp", new AlgaeArmUp(m_algaeArm));
   NamedCommands.registerCommand("AlgaeIntake", new AlgaeIntake(m_algaeintake));
   NamedCommands.registerCommand("AlgaeRelease", new AlgaeRelease(m_algaeintake));
-  NamedCommands.registerCommand("CoralAllDown", new CoralAllDown(m_coralArm));
+  NamedCommands.registerCommand("CoralAllDown", new CoralAllDown(m_coralArm));  
+  NamedCommands.registerCommand("CoralAllUp", new CoralAllUp(m_coralArm));
   NamedCommands.registerCommand("CoralCollectAngle", new CoralCollectAngle(m_coralArm));
   NamedCommands.registerCommand("CoralIntake", new CoralIntake(m_coralIntake));
-  NamedCommands.registerCommand("Coral Release", new CoralRelease(m_coralIntake));
-  NamedCommands.registerCommand("CoralReleaseAngle", new CoralReleaseAngle(m_coralArm));
+  NamedCommands.registerCommand("CoralRelease", new CoralRelease(m_coralIntake));
+  NamedCommands.registerCommand("CoralReleaseAngle", new CoralReleaseAngle(m_coralArm));  
+  NamedCommands.registerCommand("ElevatorL1", new ElevatorL1(m_Elevator ));
+  NamedCommands.registerCommand("ElevatorL2", new ElevatorL2(m_Elevator ));  
+  NamedCommands.registerCommand("ElevatorL3", new ElevatorL3(m_Elevator ));
   //NamedCommands.registerCommand("ElevatorDown",new ElevatorDown(m_ElevatorM));
   //NamedCommands.registerCommand("ElevatorL1Down", new ElevatorL1Down(m_ElevatorM));
   //NamedCommands.registerCommand("ElevatorL1Up", new ElevatorL1Up(m_ElevatorM));
@@ -181,9 +184,9 @@ public class RobotContainer {
     m_operaterController.povDown().onTrue(new CoralAllDown(m_coralArm));
     m_operaterController.povUp().onTrue(new CoralAllUp(m_coralArm));
     //m_operaterController.start().onTrue(new ElevatorL1(m_Elevator));
-    m_operaterController.x().whileTrue(new ElevatorL1(m_Elevator));; 
-    m_operaterController.y().whileTrue(new ElevatorL2(m_Elevator));;
-    m_operaterController.start().whileTrue(new ElevatorL3(m_Elevator));;
+    m_operaterController.start().whileTrue(new ElevatorL1(m_Elevator));; 
+    m_operaterController.x().whileTrue(new ElevatorL2(m_Elevator));;
+    m_operaterController.y().whileTrue(new ElevatorL3(m_Elevator));;
     //m_operaterController.y().whileTrue(m_ElevatorM.getElevatorMDownCommand());; 
     //m_operaterController.start().onTrue(new ElevatorL2(m_Elevator));
     //m_operaterController.back().onTrue(new ElevatorShane(m_ElevatorM));

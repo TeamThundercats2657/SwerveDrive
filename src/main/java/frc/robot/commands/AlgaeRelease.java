@@ -34,6 +34,12 @@ public class AlgaeRelease extends Command {
   public void initialize() {
     // Set the wheels to Releaseing speed
     m_AlgaeRelease.setAlgaeWheel(-kAlgaeIntakeSpeed);
+    try {
+      wait(1000);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

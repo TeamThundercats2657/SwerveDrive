@@ -55,11 +55,12 @@ public void setArmSetPoint(double setPointdegrees){
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    double speed = algaeArmPID.calculate(algaeArmEncoder.getPosition());
     SmartDashboard.putNumber(("Algae Absolute Encoder"), algaeArmEncoder.getPosition());
-    algaeArmRSparkMax.set(algaeArmPID.calculate(algaeArmEncoder.getPosition()));
-    algaeArmLSparkMax.set(algaeArmPID.calculate(algaeArmEncoder.getPosition()));
+    algaeArmRSparkMax.set(speed);
+    algaeArmLSparkMax.set(speed);
     SmartDashboard.putNumber(("AlgaeSetpoint"), algaeArmPID.getSetpoint());
-    SmartDashboard.putNumber(("AlgaeOutput"), algaeArmPID.calculate(algaeArmEncoder.getPosition()));
+    SmartDashboard.putNumber(("AlgaeOutputSpeed"), speed);
     SmartDashboard.putData(("AlgaePID"), algaeArmPID);//this is the PID controller
   }
 }

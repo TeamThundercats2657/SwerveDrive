@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "AlgaePath"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
+            "pathName": "ID14to16BLPath"
           }
         },
         {

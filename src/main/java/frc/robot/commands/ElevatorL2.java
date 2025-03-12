@@ -20,6 +20,7 @@ public class ElevatorL2 extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-m_Elevator.setSetPoint(40);
+m_Elevator.setSetPoint(75);
+
   }
 }
