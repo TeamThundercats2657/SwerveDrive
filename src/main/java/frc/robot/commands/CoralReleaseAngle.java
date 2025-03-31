@@ -21,7 +21,7 @@ public class CoralReleaseAngle extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-m_CoralArm.setArmSetPoint(337);
+m_CoralArm.setArmSetPoint(290);
   }
 }
 

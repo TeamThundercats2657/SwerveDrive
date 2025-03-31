@@ -7,20 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "ID14to16PathBR"
+            "pathName": "BlueCollectAlgae"
           }
         },
         {
-          "type": "sequential",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AlgaeArmDown"
-                }
-              }
-            ]
+            "pathName": "BlueCollectthenProcess"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         }
       ]

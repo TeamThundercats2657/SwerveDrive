@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+/*package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,8 +20,8 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 public class AlgaeArm extends SubsystemBase {
   //private means that the variable can only be accessed within the class
   // final means that the variable can only be assigned once
-  private final SparkMax algaeArmRSparkMax = new SparkMax(AlgaeArmRMotor, SparkMax.MotorType.kBrushless);
-  private final SparkMax algaeArmLSparkMax = new SparkMax(AlgaeArmLMotor, SparkMax.MotorType.kBrushless);
+  private final SparkMax algaeArmRSparkMax = new SparkMax(18, SparkMax.MotorType.kBrushless);
+  private final SparkMax algaeArmLSparkMax = new SparkMax(19, SparkMax.MotorType.kBrushless);
   private final SparkMaxConfig algaeArmRSparkMaxConfig = new SparkMaxConfig();
   private final SparkMaxConfig algaeArmLSparkMaxConfig = new SparkMaxConfig();
   //setting up the PID controller for the arm
@@ -29,7 +29,8 @@ public class AlgaeArm extends SubsystemBase {
   //setting up the encoder for the arm
  private final SparkAbsoluteEncoder algaeArmEncoder  ;
   /** Creates a new AlgaeArm. */
-  public AlgaeArm() {
+  
+  /*public AlgaeArm() {
     //created 2 different motors for the arm above on 16 and 17 and we made the configurations on line 18 and 19
     //then we set up the config on lines 24-27 and then applied the config on lines 28 and 29.  
     algaeArmRSparkMaxConfig.inverted(false).idleMode(IdleMode.kBrake);
@@ -63,4 +64,4 @@ public void setArmSetPoint(double setPointdegrees){
     SmartDashboard.putNumber(("AlgaeOutputSpeed"), speed);
     SmartDashboard.putData(("AlgaePID"), algaeArmPID);//this is the PID controller
   }
-}
+}*/

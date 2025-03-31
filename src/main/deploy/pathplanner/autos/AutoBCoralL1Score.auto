@@ -5,21 +5,33 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "CoralAllUp"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "ID14to16BLPath"
+            "pathName": "CoralBL1Score"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AlgaeArmDown"
+            "name": "CoralRelease"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "AlgaeRelease"
+            "waitTime": 2.0
           }
         }
       ]

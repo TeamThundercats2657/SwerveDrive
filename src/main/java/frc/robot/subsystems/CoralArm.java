@@ -23,10 +23,10 @@ public class CoralArm extends SubsystemBase {
   private final SparkMax CoralArmSparkMax = new SparkMax(CoralArmMotor, SparkMax.MotorType.kBrushless);
   private final SparkMaxConfig CoralArmSparkMaxConfig = new SparkMaxConfig();
   //setting up the PID controller for the arm
-  private final PIDController CoralArmPID = new PIDController(.8, 0, 0.05);
+  private final PIDController CoralArmPID = new PIDController(1, 0, 0.05);
   //setting up the encoder for the arm
  private final SparkAbsoluteEncoder CoralArmEncoder  ;
-  /** Creates a new CoralArm. */
+  // Creates a new CoralArm. 
   public CoralArm() {
     //created 2 different motors for the arm above on 16 and 17 and we made the configurations on line 18 and 19
     //then we set up the config on lines 24-27 and then applied the config on lines 28 and 29.  
@@ -45,6 +45,7 @@ public class CoralArm extends SubsystemBase {
   
 public void setArmSetPoint(double setPointdegrees){
   CoralArmPID.setSetpoint(setPointdegrees/360);
+  
 }
   @Override
   public void periodic() {

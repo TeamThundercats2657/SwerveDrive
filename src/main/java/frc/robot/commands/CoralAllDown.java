@@ -21,7 +21,7 @@ public class CoralAllDown extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-m_CoralArm.setArmSetPoint(60);
+m_CoralArm.setArmSetPoint(350);
   }
 }
 

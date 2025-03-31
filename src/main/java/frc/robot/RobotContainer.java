@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 //import frc.robot.commands.ElevatorL1;
@@ -26,12 +27,16 @@ import frc.robot.Constants.OperatorConstants;
 //import frc.robot.subsystems.ElevatorM;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+
+import static frc.robot.Constants.CoralArmConstants.CoralArmMotor;
+
 import java.io.File;
 import java.nio.file.Path;
 
 import swervelib.SwerveInputStream;
 import frc.robot.subsystems.AlgaeSpinner;
-import frc.robot.subsystems.AlgaeArm;
+//import frc.robot.subsystems.AlgaeArm;
+import frc.robot.subsystems.AlgaeArmManual;
 import frc.robot.subsystems.CoralSpinner;
 import frc.robot.subsystems.CoralArm;
 
@@ -52,10 +57,11 @@ public class RobotContainer {
       
       private final AlgaeSpinner m_algaeintake = new AlgaeSpinner();
       private final CoralSpinner m_coralIntake = new CoralSpinner();
-      private final AlgaeArm m_algaeArm = new AlgaeArm();
+      //private final AlgaeArm m_algaeArm = new AlgaeArm();
       private final CoralArm m_coralArm = new CoralArm();
       //private final ElevatorM m_ElevatorM = new ElevatorM();
       private final Elevator m_Elevator = new Elevator();
+      private final AlgaeArmManual m_algaearm = new AlgaeArmManual();
       
       
        
@@ -73,12 +79,12 @@ public class RobotContainer {
     return -m_driverController.getRightX();
   }
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> m_driverController.getLeftY() * 1,
-                                                                () -> m_driverController.getLeftX() * 1)
+                                                                () -> m_driverController.getLeftY() * -1,
+                                                                () -> m_driverController.getLeftX() * -1)
                                                             .withControllerRotationAxis(this::getRightX)
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
-                                                            .allianceRelativeControl(true);
+                                                            .allianceRelativeControl(false);
 
   /**
    * Clone's the angular velocity input stream and converts it to a fieldRelative input stream.
@@ -131,10 +137,12 @@ public class RobotContainer {
   
   // Put the chooser on the dashboard
 
-  NamedCommands.registerCommand("AlgaeArmDown", new AlgaeArmDown(m_algaeArm));
-  NamedCommands.registerCommand("AlgaeArmUp", new AlgaeArmUp(m_algaeArm));
-  NamedCommands.registerCommand("AlgaeIntake", new AlgaeIntake(m_algaeintake));
-  NamedCommands.registerCommand("AlgaeRelease", new AlgaeRelease(m_algaeintake));
+  //NamedCommands.registerCommand("AlgaeArmDown", new AlgaeArmDown(m_algaeArm));
+  //NamedCommands.registerCommand("AlgaeArmUp", new AlgaeArmUp(m_algaeArm));
+  //NamedCommands.registerCommand("AlgaeIntake", new AlgaeIntake(m_algaeintake));
+  //NamedCommands.registerCommand("AlgaeRelease", new AlgaeRelease(m_algaeintake));
+  
+  //NamedCommands.registerCommand("CoralStop", new CoralStop(m_coralArm)); 
   NamedCommands.registerCommand("CoralAllDown", new CoralAllDown(m_coralArm));  
   NamedCommands.registerCommand("CoralAllUp", new CoralAllUp(m_coralArm));
   NamedCommands.registerCommand("CoralCollectAngle", new CoralCollectAngle(m_coralArm));
@@ -153,7 +161,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings(false);
     DriverStation.silenceJoystickConnectionWarning(true);
-    autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = AutoBuilder.buildAutoChooser("AutoCoralRL1rightside");//Default
     SmartDashboard.putData("AutoChooser", autoChooser);
   }
 
@@ -175,18 +183,23 @@ public class RobotContainer {
   
     m_operaterController.leftBumper().whileTrue(m_algaeintake.getAlgaeIntakeCommand());;
     m_operaterController.rightBumper().whileTrue(m_algaeintake.getAlgaeReleaseCommand());;
-    m_operaterController.a().onTrue(new AlgaeArmDown(m_algaeArm));
-    m_operaterController.b().onTrue(new AlgaeArmUp(m_algaeArm));
+    m_operaterController.a().whileTrue(m_algaearm.getAlgaeDownCommand());
+    m_operaterController.b().whileTrue(m_algaearm.getAlgaeUpCommand());
     m_operaterController.leftBumper().whileTrue(m_coralIntake.getCoralIntakeCommand());;
     m_operaterController.rightBumper().whileTrue(m_coralIntake.getCoralReleaseCommand());;
     m_operaterController.povLeft().onTrue(new CoralCollectAngle(m_coralArm));
     m_operaterController.povRight().onTrue(new CoralReleaseAngle(m_coralArm));
-    m_operaterController.povDown().onTrue(new CoralAllDown(m_coralArm));
     m_operaterController.povUp().onTrue(new CoralAllUp(m_coralArm));
+    m_operaterController.povDown().onTrue(new CoralAllDown(m_coralArm));
+    m_operaterController.povDownLeft().onTrue(new CoralCollectAngleDown(m_coralArm));
+    m_operaterController.povUpLeft().onTrue(new CoralCollectAngleUp(m_coralArm));
+    //m_operaterController.povDown().whileTrue(m_coralArm.getAlgaeDownCommand());
+    //m_operaterController.povUp().whileTrue(m_coralArm.getAlgaeUpCommand());
     //m_operaterController.start().onTrue(new ElevatorL1(m_Elevator));
     m_operaterController.start().whileTrue(new ElevatorL1(m_Elevator));; 
     m_operaterController.x().whileTrue(new ElevatorL2(m_Elevator));;
     m_operaterController.y().whileTrue(new ElevatorL3(m_Elevator));;
+    //m_operaterController.back().whileTrue(new AlgaeArmZero(m_algaeArm));
     //m_operaterController.y().whileTrue(m_ElevatorM.getElevatorMDownCommand());; 
     //m_operaterController.start().onTrue(new ElevatorL2(m_Elevator));
     //m_operaterController.back().onTrue(new ElevatorShane(m_ElevatorM));
@@ -195,9 +208,14 @@ public class RobotContainer {
     //m_operaterController.b().whileTrue((m_algaeDBR.getAlgaeUpCommand()));
     //m_operaterController.a().whileTrue((m_algaeDBL.getAlgaeDownCommand()));
     //m_operaterController.b().whileTrue((m_algaeDBL.getAlgaeUpCommand()));
-    //new Trigger(() -> m_operaterController.getRightY() < 0.1).whileTrue(m_algaeDBR.getAlgaeDownCommand());
+    //new Trigger(() -> m_operaterController.getLeftY() < 0.1).whileTrue(m_coralArm.run(CoralArmMotor));
     //new Trigger(() -> m_operaterController.getRightY() < 0.1).whileTrue(m_algaeDBL.getAlgaeUpCommand());
-    
+    /*m_coralArm.setDefaultCommand(
+        new RunCommand(
+            () ->
+                m_coralArm.CoralArm(
+                    m_operaterController.getLeftY(), 
+            m_coralArm)));*/
     
     //Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
     

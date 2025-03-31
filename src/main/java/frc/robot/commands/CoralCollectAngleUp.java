@@ -2,24 +2,25 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-/*package frc.robot.commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.AlgaeArm;
+import frc.robot.subsystems.CoralArm;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AlgaeArmUp extends InstantCommand {
-  private final AlgaeArm m_algaeArm;
-  public AlgaeArmUp(AlgaeArm algaeArm) {
+public class CoralCollectAngleUp extends InstantCommand {
+  private final CoralArm m_CoralArm;
+  public CoralCollectAngleUp(CoralArm CoralArm) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_algaeArm = algaeArm;
+    m_CoralArm = CoralArm;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-m_algaeArm.setArmSetPoint(210);
+m_CoralArm.setArmSetPoint(220  );
   }
-}*/
+}
+

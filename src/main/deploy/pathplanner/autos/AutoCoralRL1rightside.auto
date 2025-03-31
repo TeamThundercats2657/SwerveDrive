@@ -5,27 +5,33 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "AlgaePath"
+            "name": "CoralAllUp"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CoralRL1rightside"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AlgaeArmDown"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AlgaeRelease"
+            "name": "CoralRelease"
           }
         }
       ]

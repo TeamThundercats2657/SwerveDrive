@@ -110,8 +110,8 @@ public static class CoralArmConstants {
   public static final int kCoralDBLCurrentLimit = 80;
   // Speeds for wheels when intaking and launching for the Algae. Intake speeds are negative to run the wheels
   // in reverse
-  public static final double kCoralDown = .4;
-  public static final double kCoralUp = .8;
+  public static final double kCoralDown = .3;
+  public static final double kCoralUp = -.5;
 
   
 

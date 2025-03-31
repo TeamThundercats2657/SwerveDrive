@@ -10,9 +10,9 @@ import frc.robot.subsystems.AlgaeArm;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AlgaeArmUp extends InstantCommand {
+public class AlgaeArmZero extends InstantCommand {
   private final AlgaeArm m_algaeArm;
-  public AlgaeArmUp(AlgaeArm algaeArm) {
+  public AlgaeArmZero(AlgaeArm algaeArm) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_algaeArm = algaeArm;
   }
@@ -20,6 +20,6 @@ public class AlgaeArmUp extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-m_algaeArm.setArmSetPoint(210);
+m_algaeArm.setArmSetPoint(226);
   }
 }*/
